@@ -11,7 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../components/ui/form"
-import { axiosClient } from "../api/axios"
+
+import { axiosClient } from "../axios"
 export default function LoginForm() {
     "use client"
 
@@ -29,15 +30,23 @@ const form = useForm<z.infer<typeof formSchema>>({
     
   })
  
-  // 2. Define a submit handler.
+  // submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await axiosClient.get('/sanctum/csrf-cookie');
+      // Fetch CSRF token
+       await axiosClient.get('/sanctum/csrf-cookie');
+  
+      // POST request
       const data = await axiosClient.post('/login', values);
       console.log('Login successful:', data);
-    } catch (error) {
-      form.setError('email', { message: 'Invalid credentials' }); // Adjust for your error handling
-      console.error('Login failed:', error);
+    } catch (error: any) {
+      if (error.response?.status === 422) {
+        form.setError('email', { message: 'Invalid credentials' });
+      } else if (error.response?.status === 419) {
+        console.error('CSRF token mismatch:', error);
+      } else {
+        console.error('Login failed:', error);
+      }
     }
   }
 
