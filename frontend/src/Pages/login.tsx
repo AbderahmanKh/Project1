@@ -24,7 +24,7 @@ const formSchema = z.object({
 const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        email : 'Abdo2004@example.com',
+        email : 'test@example.com',
         password : '123456789',
     }
     

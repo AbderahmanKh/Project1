@@ -4,6 +4,7 @@ import Menu from "../Pages/Menu";
 import Msection from "../Pages/Section1";
 import SignupForm from "../Pages/signup";
 import LoginForm from "../Pages/login";
+import Dashboard from "../Pages/dashboard";
 
 export const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path: '/Signup',
                 element: <SignupForm/>
+            },
+            {
+                path: '/dashboard',
+                element: <Dashboard/>
             },
             
         ]
